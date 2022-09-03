@@ -1,11 +1,15 @@
 package com.udacity.asteroidradar.api
 
+import com.google.gson.JsonObject
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.PictureOfDay
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+
 import retrofit2.http.GET
 
 private val moshi = Moshi.Builder()
@@ -22,7 +26,18 @@ interface ImgApiInterface {
 
 object ImgAsteroidApi {
 
+
     val retrofitService: ImgApiInterface by lazy { retrofit.create(ImgApiInterface::class.java) }
+}
+
+
+interface DataInterface{
+    @GET("neo/rest/v1/feed?start_date=2020-11-27&end_date=2020-11-27&api_key=T6cHWofGW6F5BEBoDPbp3wLdaLHRedN9ytve3ddr")
+    suspend fun getData(): JSONObject
+}
+
+object DataAsteroidApi{
+    val retrofitService: DataInterface by lazy { retrofit.create(DataInterface::class.java) }
 }
 
 //interface DataApiInterface{

@@ -8,6 +8,9 @@
             name="viewModel"
             type="com.udacity.asteroidradar.main.MainViewModel" />
 
+        <variable
+            name="converter"
+            type="com.udacity.asteroidradar.api.NetworkUtilsKt" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +53,7 @@
             android:id="@+id/asteroid_recycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            tools:listitem="@layout/asteroid_data_list"
+            tools:listitem="@{converter.parseAsteroidsJsonResult(viewModel.dataResponse)}"
 
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
