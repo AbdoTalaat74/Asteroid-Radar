@@ -15,17 +15,17 @@ abstract class AsteroidDatabase : RoomDatabase() {
     companion object {
         private var INSTANCE: AsteroidDatabase? = null
 
-        private fun getInstance(context: Context): AsteroidDatabase? {
-            synchronized(this) {
-                var instance = INSTANCE
-                if (instance == null) {
+         fun getInstance(context: Context): AsteroidDatabase? {
+             synchronized(this) {
+                 var instance = INSTANCE
+                 if (instance == null) {
 
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        AsteroidDatabase::class.java, "asteroid_database"
-                    )
-                        .fallbackToDestructiveMigration()
-                        .build()
+                     instance = Room.databaseBuilder(
+                         context.applicationContext,
+                         AsteroidDatabase::class.java, "asteroid_database"
+                     )
+                         .fallbackToDestructiveMigration()
+                         .build()
 
                     INSTANCE = instance
                 }

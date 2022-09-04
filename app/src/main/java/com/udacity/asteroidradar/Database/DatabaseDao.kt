@@ -13,5 +13,5 @@ interface DatabaseDao{
     fun getAllAsteroids(): LiveData<List<Asteroid>>
 
     @Insert(onConflict = REPLACE)
-    fun insert(asteroid: Asteroid)
+    fun insert( asteroid: Asteroid)
 }

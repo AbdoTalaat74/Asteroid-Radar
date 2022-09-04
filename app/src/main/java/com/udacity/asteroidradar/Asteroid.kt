@@ -46,9 +46,18 @@ data class Asteroid(
 
 ) : Parcelable
 
-//id (Not for displaying but for using in db)
-//absolute_magnitude @
-//estimated_diameter_max (Kilometers)@
-//is_potentially_hazardous_asteroid@
-//close_approach_data -> relative_velocity -> kilometers_per_second
-//close_approach_data -> miss_distance -> astronomical
+fun List<Asteroid>.asDomainModel(): List<Asteroid>{
+    return map {
+        Asteroid(
+            id = it.id,
+            codename = it.codename,
+            closeApproachDate = it.closeApproachDate,
+            absoluteMagnitude = it.absoluteMagnitude,
+            estimatedDiameter = it.estimatedDiameter,
+            relativeVelocity = it.relativeVelocity,
+            distanceFromEarth = it.distanceFromEarth,
+            isPotentiallyHazardous = it.isPotentiallyHazardous
+
+        )
+    }
+}
