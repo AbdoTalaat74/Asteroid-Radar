@@ -26,27 +26,12 @@ class MainFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-//        val listAsteroid: List<Asteroid> = listOf(
-//            Asteroid(
-//                1, "code1", "Approach1", 0.12,
-//                0.33, 0.44, 0.55, false
-//            ), Asteroid(
-//                2, "code2", "Approach2", 0.14,
-//                0.35, 0.46, 0.59, true
-//            ), Asteroid(
-//
-//                        3, "code3", "Approach2", 0.17,
-//                0.25, 0.76, 0.89, true
-//
-//
-//            )
-//        )
+
 
         val adapter = MainAdapter(AsteroidClickListener {
             asteroid -> viewModel.onAsteroidListenerClicked(asteroid)
         })
         binding.asteroidRecycler.adapter = adapter
-//        adapter.submitList(listAsteroid)
 
         viewModel.navigateToAsteroidDetails.observe(viewLifecycleOwner, Observer {
             it?.let {

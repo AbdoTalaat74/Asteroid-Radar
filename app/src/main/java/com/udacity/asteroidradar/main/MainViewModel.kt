@@ -12,6 +12,9 @@ import com.udacity.asteroidradar.api.ImgAsteroidApi
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Response
+import javax.security.auth.callback.Callback
 
 class MainViewModel : ViewModel() {
 
@@ -19,8 +22,8 @@ class MainViewModel : ViewModel() {
     val imgResponse: LiveData<PictureOfDay>
         get() = _imgResponse
 
-    private val _dataResponse = MutableLiveData<JSONObject>()
-    val dataResponse: LiveData<JSONObject>
+    private val _dataResponse = MutableLiveData<List<Asteroid>>()
+    val dataResponse: LiveData<List<Asteroid>>
         get() = _dataResponse
 
     private val _navigateToAsteroidDetails = MutableLiveData<Asteroid?>()
@@ -40,21 +43,23 @@ class MainViewModel : ViewModel() {
         getPhotoFromApi()
         viewModelScope.launch {
             try {
+                val data:String = DataAsteroidApi.retrofitService.getData()
+                val json = JSONObject(data)
+                _dataResponse.value = parseAsteroidsJsonResult(json)
+                Log.i("dataSize", _dataResponse.value!!.size.toString())
 
-                _dataResponse.value = DataAsteroidApi.retrofitService.getData()
-                Log.i("dataResponse", _dataResponse.value!!.toString())
             } catch (e: Exception) {
                 e.message?.let {
                     Log.i("ApiAsteroid", it)
                 }
             }
         }
+
     }
 
     private fun getPhotoFromApi() {
         viewModelScope.launch {
             try {
-
                 _imgResponse.value = ImgAsteroidApi.retrofitService.getPhoto()
                 Log.i("ApiAsteroid", _imgResponse.value!!.url)
             }catch (e: Exception){

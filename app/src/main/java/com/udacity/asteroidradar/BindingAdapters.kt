@@ -8,6 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.udacity.asteroidradar.main.MainAdapter
 
+@BindingAdapter("listData")
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<Asteroid>?) {
+    val adapter = recyclerView.adapter as MainAdapter
+    adapter.submitList(data)
+}
+
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {

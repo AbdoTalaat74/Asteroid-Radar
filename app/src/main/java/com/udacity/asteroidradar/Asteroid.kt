@@ -28,8 +28,8 @@ data class Asteroid(
     @SerializedName("absolute_magnitude_h")
     val absoluteMagnitude: Double,
 
-    @ColumnInfo(name = "estimate_diameter")
-    @SerializedName("estimate_diameter")
+    @ColumnInfo(name = "estimated_diameter")
+    @SerializedName("estimated_diameter")
     val estimatedDiameter: Double,
 
     @ColumnInfo(name = "relative_velocity")

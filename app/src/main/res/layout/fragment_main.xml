@@ -51,10 +51,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/asteroid_recycler"
+            app:listData="@{viewModel.dataResponse}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            tools:listitem="@{converter.parseAsteroidsJsonResult(viewModel.dataResponse)}"
-
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
