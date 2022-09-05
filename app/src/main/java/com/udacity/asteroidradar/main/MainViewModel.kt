@@ -22,9 +22,9 @@ import javax.security.auth.callback.Callback
 
 class MainViewModel(application: Application) : ViewModel() {
 
-    private val _imgResponse = MutableLiveData<PictureOfDay>()
-    val imgResponse: LiveData<PictureOfDay>
-        get() = _imgResponse
+//    private val _imgResponse = MutableLiveData<PictureOfDay>()
+//    val imgResponse: LiveData<PictureOfDay>
+//        get() = _imgResponse
 
 
     private val _navigateToAsteroidDetails = MutableLiveData<Asteroid?>()
@@ -47,27 +47,28 @@ class MainViewModel(application: Application) : ViewModel() {
     }
 
     init {
-        getPhotoFromApi()
+//        getPhotoFromApi()
 
         viewModelScope.launch {
 
             repository!!.refreshAsteroids()
+            repository.refreshPhoto()
         }
 
 
     }
 
     val asteroidList = repository!!.asteroids
+    val pictureOfDay = repository?.pictureOfDay
 
-
-    private fun getPhotoFromApi() {
-        viewModelScope.launch {
-            try {
-                _imgResponse.value = ImgAsteroidApi.retrofitService.getPhoto()
-                Log.i("ApiAsteroid", _imgResponse.value!!.url)
-            }catch (e: Exception){
-                e.message?.let { Log.i("ApiAsteroid", it) }
-            }
-        }
-    }
+//    private fun getPhotoFromApi() {
+//        viewModelScope.launch {
+//            try {
+//                _imgResponse.value = ImgAsteroidApi.retrofitService.getPhoto()
+//                Log.i("ApiAsteroid", _imgResponse.value!!.url)
+//            }catch (e: Exception){
+//                e.message?.let { Log.i("ApiAsteroid", it) }
+//            }
+//        }
+//    }
 }

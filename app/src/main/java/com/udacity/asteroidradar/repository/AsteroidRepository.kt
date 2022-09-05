@@ -5,7 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Database.AsteroidDatabase
+import com.udacity.asteroidradar.PictureOfDay
 import com.udacity.asteroidradar.api.DataAsteroidApi
+import com.udacity.asteroidradar.api.ImgAsteroidApi
 
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.asDomainModel
@@ -19,6 +21,10 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
         Transformations.map(database.databaseDao.getAllAsteroids()) {
             it.asDomainModel()
         }
+
+    val pictureOfDay: LiveData<PictureOfDay> = database.picDatabaseDo.getPicture()
+
+
 
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO) {
@@ -38,4 +44,15 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
 
         }
     }
+    suspend fun refreshPhoto(){
+        withContext(Dispatchers.IO){
+            try {
+                val response = ImgAsteroidApi.retrofitService.getPhoto()
+                database.picDatabaseDo.insertPicture(response)
+            }catch (e:Exception){
+                e.message?.let { Log.i("Failed ya talaat", it) }
+            }
+        }
+    }
+
 }
