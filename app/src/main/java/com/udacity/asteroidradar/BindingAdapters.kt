@@ -6,6 +6,7 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.main.MainAdapter
 
 @BindingAdapter("listData")
@@ -54,7 +55,8 @@ fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
 fun bindImageOfTheDay(imageView: ImageView, url: String?) {
     url?.let {
         val photoUri = url.toUri().buildUpon().scheme("https").build()
-        Glide.with(imageView.context).load(photoUri).into(imageView)
+//        Glide.with(imageView.context).load(photoUri).into(imageView)
+        Picasso.with(imageView.context).load(photoUri).into(imageView)
     }
 
 

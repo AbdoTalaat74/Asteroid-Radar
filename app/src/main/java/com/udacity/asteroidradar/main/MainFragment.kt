@@ -2,16 +2,17 @@ package com.udacity.asteroidradar.main
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
+
+    private lateinit var viewModel: MainViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +25,7 @@ class MainFragment : Fragment() {
 
         val viewModelFactory = MainViewModelFactory(application)
 
-        val viewModel = ViewModelProvider(this,viewModelFactory)[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this,viewModelFactory)[MainViewModel::class.java]
 
         binding.viewModel = viewModel
 
@@ -43,7 +44,6 @@ class MainFragment : Fragment() {
         })
 
 
-
         setHasOptionsMenu(true)
 
         return binding.root
@@ -55,6 +55,12 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.show_today_asteroids -> viewModel.updateFilter(AsteroidFilter.TODAY_ASTEROIDS)
+            R.id.show_week_asteroids -> viewModel.updateFilter(AsteroidFilter.WEEKLY_ASTEROIDS)
+            R.id.show_saved_asteroids -> viewModel.updateFilter(AsteroidFilter.SAVED_ASTEROIDS)
+
+        }
         return true
     }
 }

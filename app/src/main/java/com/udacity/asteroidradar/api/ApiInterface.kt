@@ -30,6 +30,7 @@ interface ImgApiInterface {
 object ImgAsteroidApi {
 
 
+
     val retrofitService: ImgApiInterface by lazy { retrofit.create(ImgApiInterface::class.java) }
 }
 
@@ -41,6 +42,8 @@ interface DataInterface{
 
 object DataAsteroidApi{
     val retrofitService: DataInterface by lazy { retrofit.create(DataInterface::class.java) }
+
+
 }
 
 //interface DataApiInterface{

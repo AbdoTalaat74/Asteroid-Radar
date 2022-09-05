@@ -8,7 +8,7 @@ import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.PictureOfDay
 
 
-@Database(entities = [Asteroid::class,PictureOfDay::class], version = 2, exportSchema = false)
+@Database(entities = [Asteroid::class,PictureOfDay::class], version = 1, exportSchema = false)
 abstract class AsteroidDatabase : RoomDatabase() {
 
     abstract val databaseDao: DatabaseDao

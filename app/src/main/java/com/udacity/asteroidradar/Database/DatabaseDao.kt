@@ -10,8 +10,15 @@ import com.udacity.asteroidradar.PictureOfDay
 
 @Dao
 interface DatabaseDao{
-    @Query("SELECT * FROM asteroid")
+    @Query("SELECT * FROM asteroid ORDER BY close_approach_date ASC")
     fun getAllAsteroids(): LiveData<List<Asteroid>>
+
+    @Query("SELECT * FROM asteroid WHERE close_approach_date= :date ")
+    fun getCurrentDayAsteroids(date: String): LiveData<List<Asteroid>>
+
+    @Query("SELECT * FROM asteroid WHERE close_approach_date BETWEEN :fromDate AND :toDate ORDER BY close_approach_date ASC")
+    fun getWeeklyAsteroids(fromDate: String, toDate: String): LiveData<List<Asteroid>>
+
 
     @Insert(onConflict = REPLACE)
     fun insert( asteroid: Asteroid)

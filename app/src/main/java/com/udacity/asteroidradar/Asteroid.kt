@@ -20,7 +20,7 @@ data class Asteroid(
     @SerializedName("name")
     val codename: String,
 
-    @ColumnInfo(name ="close_approach_data" )
+    @ColumnInfo(name ="close_approach_date" )
     @SerializedName("close_approach_data")
     val closeApproachDate: String,
 

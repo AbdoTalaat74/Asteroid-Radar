@@ -1,24 +1,17 @@
 package com.udacity.asteroidradar.main
 
 import android.app.Application
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Database.AsteroidDatabase
-import com.udacity.asteroidradar.Database.DatabaseDao
-import com.udacity.asteroidradar.PictureOfDay
-import com.udacity.asteroidradar.api.DataAsteroidApi
-import com.udacity.asteroidradar.api.ImgAsteroidApi
-import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.repository.AsteroidRepository
 import kotlinx.coroutines.launch
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Response
-import javax.security.auth.callback.Callback
+
+enum class AsteroidFilter {
+    TODAY_ASTEROIDS,
+    WEEKLY_ASTEROIDS,
+    SAVED_ASTEROIDS
+}
 
 class MainViewModel(application: Application) : ViewModel() {
 
@@ -38,13 +31,24 @@ class MainViewModel(application: Application) : ViewModel() {
 
 
 
-    fun onAsteroidListenerClicked(asteroid: Asteroid){
-        _navigateToAsteroidDetails.value = asteroid
+
+
+    private val filter =
+        MutableLiveData(AsteroidFilter.SAVED_ASTEROIDS)
+
+
+    val asteroidList = Transformations.switchMap(filter) {
+        when (it) {
+            AsteroidFilter.TODAY_ASTEROIDS -> repository?.currentDayAsteroids
+            AsteroidFilter.WEEKLY_ASTEROIDS -> repository?.weeklyAsteroids
+            else -> repository?.allAsteroid
+        }
     }
 
-    fun onAsteroidDetailsNavigated(){
-        _navigateToAsteroidDetails.value = null
-    }
+
+
+
+
 
     init {
 //        getPhotoFromApi()
@@ -55,11 +59,22 @@ class MainViewModel(application: Application) : ViewModel() {
             repository.refreshPhoto()
         }
 
-
     }
 
-    val asteroidList = repository!!.asteroids
+
     val pictureOfDay = repository?.pictureOfDay
+
+    fun updateFilter(asteroidFilter: AsteroidFilter){
+        filter.value = asteroidFilter
+    }
+
+    fun onAsteroidListenerClicked(asteroid: Asteroid) {
+        _navigateToAsteroidDetails.value = asteroid
+    }
+
+    fun onAsteroidDetailsNavigated() {
+        _navigateToAsteroidDetails.value = null
+    }
 
 //    private fun getPhotoFromApi() {
 //        viewModelScope.launch {
