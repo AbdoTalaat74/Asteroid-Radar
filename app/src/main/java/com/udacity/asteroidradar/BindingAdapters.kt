@@ -5,7 +5,6 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.main.MainAdapter
 
@@ -60,6 +59,17 @@ fun bindImageOfTheDay(imageView: ImageView, url: String?) {
     }
 
 
+}
+
+@BindingAdapter("hazardousDescription")
+fun bindHazardousDescription(imageView: ImageView, isHazardous: Boolean) {
+    if (isHazardous) {
+        imageView.contentDescription =
+            imageView.context.getString(R.string.potentially_hazardous_asteroid_image)
+    } else {
+        imageView.contentDescription =
+            imageView.context.getString(R.string.not_hazardous_asteroid_image)
+    }
 }
 //@BindingAdapter("imageUrl")
 //fun bindImage(imgView: ImageView, imgUrl: String?) {

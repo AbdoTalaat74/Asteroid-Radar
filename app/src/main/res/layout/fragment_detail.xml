@@ -16,11 +16,13 @@
         android:background="@color/app_background">
 
         <ImageView
+
             android:id="@+id/activity_main_image_of_the_day"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:hazardousDescription="@{asteroid.isPotentiallyHazardous}"
             android:adjustViewBounds="true"
-            app:asteroidStatusImage="@{asteroid.potentiallyHazardous}"
+            app:asteroidStatusImage="@{asteroid.isPotentiallyHazardous}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -48,6 +50,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/close_approach_data_title"
+
                         android:textColor="@color/default_text_color" />
 
                     <TextView
@@ -93,8 +96,8 @@
                         android:id="@+id/help_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        app:srcCompat="@drawable/ic_help_circle" />
+                        android:contentDescription="@string/astronomical_unit_explanation_button"
+                        app:srcCompat="@drawable/ic_help_circle"  />
 
                 </LinearLayout>
 

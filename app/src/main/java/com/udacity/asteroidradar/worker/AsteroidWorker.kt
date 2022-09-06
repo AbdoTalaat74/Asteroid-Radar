@@ -10,6 +10,9 @@ import com.udacity.asteroidradar.repository.AsteroidRepository
 class AsteroidWorker(context: Context, params: WorkerParameters):
         CoroutineWorker(context, params) {
 
+    companion object{
+        const val WORK_NAME = "RefreshDataWorker"
+    }
 
     override suspend fun doWork(): Result {
 
@@ -18,6 +21,7 @@ class AsteroidWorker(context: Context, params: WorkerParameters):
         return try {
 
             repository.refreshAsteroids()
+            repository.refreshPhoto()
             Log.i("Refresh State","Refreshed Successfully")
             Result.success()
 
@@ -27,8 +31,6 @@ class AsteroidWorker(context: Context, params: WorkerParameters):
             Result.retry()
         }
     }
-    companion object {
-        const val WORK_NAME = "RefreshDataWorker"
-    }
+
 
 }

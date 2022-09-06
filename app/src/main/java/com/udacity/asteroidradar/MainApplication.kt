@@ -2,7 +2,6 @@ package com.udacity.asteroidradar
 
 import android.app.Application
 import android.os.Build
-import android.util.Log
 import androidx.work.*
 import com.udacity.asteroidradar.worker.AsteroidWorker
 import kotlinx.coroutines.CoroutineScope
@@ -11,22 +10,16 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 class MainApplication : Application() {
+
     private val appScope = CoroutineScope(Dispatchers.Default)
 
-    override fun onCreate() {
-        super.onCreate()
-        delayInt()
-    }
-
-
-    private fun delayInt() {
+    private fun delayedInit() {
         appScope.launch {
-            setupRecurringWork()
+            work()
         }
     }
 
-    private fun setupRecurringWork() {
-
+    private fun work() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.UNMETERED)
             .setRequiresBatteryNotLow(true)
@@ -34,20 +27,23 @@ class MainApplication : Application() {
             .apply {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     setRequiresDeviceIdle(true)
-
-                }else{
-                    Log.i("SDK_INT","SDL Low")
                 }
-
             }.build()
 
-        val repeatingRequest =
-            PeriodicWorkRequestBuilder<AsteroidWorker>(1, TimeUnit.DAYS)
-                .setConstraints(constraints)
-                .build()
+        val periodicRequest
+                = PeriodicWorkRequestBuilder<AsteroidWorker>(1, TimeUnit.DAYS)
+            .setConstraints(constraints)
+            .build()
+
         WorkManager.getInstance().enqueueUniquePeriodicWork(
             AsteroidWorker.WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
-            repeatingRequest)
+            periodicRequest)
+    }
+
+
+    override fun onCreate() {
+        super.onCreate()
+        delayedInit()
     }
 }
